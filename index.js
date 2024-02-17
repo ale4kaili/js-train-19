@@ -17,14 +17,23 @@
  */
 
 // Створюємо об'єкт Book
+let Book = {
+    title: "Загальна Книга",
+    author: "Анонім",
+    pages: 0,
+    read() {
+        console.log(`Ви читаєте ${this.title} від ${this.author}`);
+    },
+};
 
 console.log("Завдання: 1 ==============================");
 
 // Виводимо в консоль Об'єкт: Book
-
+console.log(Book);
 // Виводимо в консоль прототип Об'єкту: Book
-
+console.log(Object.getPrototypeOf(Book));
 // Викликаємо функцію read об'єкту Book
+Book.read();
 
 // 2. Наслідування від базового об'єкту Book
 
@@ -40,12 +49,15 @@ console.log("Завдання: 1 ==============================");
 // Створюємо об'єкт Novel, наслідуємо властивості і функції від об'єкта Book
 
 // Додаємо властивість genre
+const Novel = Object.create(Book);
+Novel.genre = "Новела";
 
 console.log("Завдання: 2 ==============================");
 
 // Виводимо в консоль Об'єкт: Novel
-
+console.log(Novel);
 // Виводимо в консоль прототип Об'єкту: Novel
+console.log(Object.getPrototypeOf(Novel));
 
 // 3. Створення нового об'єкту та зміна його прототипу
 
@@ -63,11 +75,18 @@ console.log("Завдання: 2 ==============================");
 // Створюємо об'єкт Biography
 
 // Змінемо прототип об'єкта Biography на Novel
+let Biography = {
+    title: "Загальна Біографія",
+    author: "Біограф",
+    pages: 200
+}
+Object.setPrototypeOf(Biography, Novel);
 
 console.log("Завдання: 3 ==============================");
 // Виводимо в консоль Об'єкт: Biography
-
+console.log(Biography);
 // Перевіримо чи являється Novel прототипом Biography та виведемо в консоль
+console.log(Novel.isPrototypeOf(Biography));
 
 // 4. Інкапсуляція властивості та додання властивості
 /*
@@ -94,11 +113,26 @@ console.log("Завдання: 3 ==============================");
 // | author      | "Альберт Ейнштейн"   |
 // | info        | написана в 1915 році |
 
+let ScienceBook = Object.create(Book);
+Object.defineProperty(ScienceBook, 'info', {
+    configurable: false,
+    set(value) {
+        this.infoText = value;
+    },
+    get() {
+        return `Про книгу ${this.title}: ${this.infoText}`;
+    }
+});
+
+ScienceBook.title = "Фізика 101";
+ScienceBook.author = "Альберт Ейнштейн";
+ScienceBook.info = 'написана в 1915 році';
+
 console.log("Завдання: 4 ==============================");
 // Виводимо в консоль властивість info
-
+console.log(ScienceBook.info);
 // Виводимо в консоль налаштування властивости info
-
+console.log(Object.getOwnPropertyDescriptor(ScienceBook, 'info'));
 // 5. Поліморфізм: створення нового об'єкта та перевизначення його методу
 /*
  * Об'єкт: Textbook
